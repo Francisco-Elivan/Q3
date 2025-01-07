@@ -3,6 +3,21 @@ import cors from "cors";
 import router from "./router/routes.js";
 
 
+// Servir arquivos estáticos do React
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Rota específica para o service-worker.js
+app.get('/service-worker.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'service-worker.js'));
+});
+
+// Fallback para o index.html para outras rotas
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
+
 const corsOptions = {
   origin: '*', // Permitir todas as origens (ou substitua pelo domínio específico)
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitido
