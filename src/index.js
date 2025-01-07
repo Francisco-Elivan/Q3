@@ -3,6 +3,7 @@ import cors from "cors";
 import router from "./router/routes.js";
 
 
+const app = express()
 // Servir arquivos estáticos do React
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -24,7 +25,6 @@ const corsOptions = {
 
 };
 
-const app = express()
 app.use(cors(corsOptions))
 app.use(express.json())
 
