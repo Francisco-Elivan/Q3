@@ -1,8 +1,14 @@
 import express from "express";
 import cors from "cors";
 import router from "./router/routes.js";
+import path from "path"
+import { fileURLToPath } from 'url';//Importa a função necessária para converter
 
 
+
+// Obter o diretório atual
+const __filename = fileURLToPath(import.meta.url);//Obtenha o caminho do arquivo atual.
+const __dirname = path.dirname(__filename);//Obter o diretório
 const app = express()
 // Servir arquivos estáticos do React
 app.use(express.static(path.join(__dirname, 'build')));
