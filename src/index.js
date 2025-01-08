@@ -1,30 +1,10 @@
 import express from "express";
 import cors from "cors";
 import router from "./router/routes.js";
-import path from "path"
-import { fileURLToPath } from 'url';//Importa a função necessária para converter
 
 
 
-// Obter o diretório atual
-const __filename = fileURLToPath(import.meta.url);//Obtenha o caminho do arquivo atual.
-const __dirname = path.dirname(__filename);//Obter o diretório
 const app = express()
-// Servir arquivos estáticos do React
-app.use(express.static(path.join(__dirname, 'build')));
-
-// Rota específica para o service-worker.js
-app.get('/service-worker.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'service-worker.js'));
-});
-
-// Fallback para o index.html para outras rotas
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
-
-
 const corsOptions = {
   origin: '*', // Permitir todas as origens (ou substitua pelo domínio específico)
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitido
@@ -41,7 +21,7 @@ app.use((req, res, next) => {
   res.removeHeader('X-Powered-By');
   res.header('Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type,Authorization, Accept,X-PINGOTHER');
-  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET, PUT,POST, DELETE');
   res.setHeader('X-Content-Type-Options', 'nosniff')
   res.setHeader('Cache-Control', 'no-cache');
   next();
@@ -49,4 +29,4 @@ app.use((req, res, next) => {
 
 app.use(router)
 
-app.listen(3003, () => { console.log("server running") })  
+app.listen(3003, () => { console.log("server running, port 3003") })  

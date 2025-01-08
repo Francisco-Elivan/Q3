@@ -25,14 +25,14 @@ router.post('/auditoria/question/response',controller_response.set)
 //////////////////rotas celula/////////////
 router.get('/auditoria/celula',header_response.headerRes,jwt.ValidateToken,controller_celula.list)
 router.post('/auditoria/resgister/celula',header_response.headerRes,jwt.ValidateToken,controller_celula.create)
-router.put('/auditoria/update/celula/:id_celula',header_response.headerRes,controller_celula.update)
-router.delete('/auditoria/drop/celula/:id_celula',header_response.headerRes,controller_celula.delet)
-console.log('valta colocar:( jwt.ValidateToken ), no put e no delet ')
+router.put('/auditoria/update/celula/:id_celula',header_response.headerRes,jwt.ValidateToken,controller_celula.update)
+router.delete('/auditoria/drop/celula/:id_celula',header_response.headerRes,jwt.ValidateToken,controller_celula.delet)
+
    
 //////////////////rotas produto/////////////
 router.get('/auditoria/produto',header_response.headerRes,jwt.ValidateToken,controller_produto.list)
 router.get('/auditoria/produto/list',header_response.headerRes,jwt.ValidateToken,controller_produto.list_inner_join)
 router.post('/auditoria/resgister/produto',header_response.headerRes,jwt.ValidateToken,controller_produto.create)
-router.put('/auditoria/update/produto/:id_produto',header_response.headerRes,controller_produto.update)
-router.delete('/auditoria/drop/produto/:id_produto',header_response.headerRes,controller_produto.delet)
+router.put('/auditoria/update/produto/:id_produto',header_response.headerRes,jwt.ValidateToken,controller_produto.update)
+router.delete('/auditoria/drop/produto/:id_produto',header_response.headerRes,jwt.ValidateToken,controller_produto.delet)
 export default router    
