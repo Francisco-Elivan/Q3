@@ -14,9 +14,6 @@ function CreateToken(token){
 
 function ValidateToken(req,res,next){
     const authToken = req.headers.authorization;
-    console.log('///////////////validate///////////')
-    console.log(authToken)
-    console.log('///////////////validate///////////')
     if(!authToken) return res.status(401).json({error:"Token não informado"});
     //por padrao o "req.heaers.authorization", retorna uma string "Bearer 00000000000"//
     //

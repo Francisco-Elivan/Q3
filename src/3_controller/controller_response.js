@@ -15,8 +15,8 @@ async function set(req, res) {
             try {
                 var files = req.files; // Array de arquivos enviados
                 var auditoriaData = JSON.parse(req.body.auditoriaData); // Dados JSON
-             
-           
+
+
                 // Mapeando as respostas e associando as imagens enviadas
                 var response = auditoriaData.map((item) => {
                     const {
@@ -56,9 +56,7 @@ async function set(req, res) {
                     };
                 });
 
-                console.log('/////////////////CONTROLLER////////////////////');
-                console.log('Arquivos:', files);
-                console.log('Dados processados:', response);
+
 
                 // Salvando cada resposta no banco de dados
                 const results = [];
@@ -68,8 +66,8 @@ async function set(req, res) {
                         item.celula,
                         item.produto,
                         item.turno,
-                        item.ok ? 'OK' : 'NOK',
-                        item.nok ? 'OK' : 'NOK',
+                        item.ok ? 'OK' : '',
+                        item.nok ? 'NOK' : '',
                         item.na ? 'N/A' : '',
                         item.observation,
                         item.img.length > 0 ? item.img.join(',') : '', // Junta os nomes das imagens em uma string separada por vírgulas
@@ -80,14 +78,25 @@ async function set(req, res) {
                     );
                     results.push(id_response);
                 }
-            res.status(201).send('Auditoria concluida com sucesso!');
-           
+                res.status(201).send('Auditoria concluida com sucesso!');
+
             } catch (error) {
-                console.error('Erro ao processar upload:', error);
+
                 res.status(400).send('Erro ao processar upload');
             }
 
             //falta enviar pra service os dados
         })
 };
-export default { set }
+
+async function listResponse(req, res) {
+
+
+    const list = await service_response.listResponse()
+
+     res.status(200).json(list)
+ 
+
+}
+
+export default { set, listResponse }

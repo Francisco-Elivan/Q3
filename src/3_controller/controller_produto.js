@@ -11,9 +11,6 @@ async function list(req,res) {
 async function list_inner_join(req,res) {
    const celula = req.query.celula
    const list_produtos = await service_produto.list_inner_join(celula)
-   console.log('//////////////controler//////////////////////////')
-    console.log(list_produtos.length == 0 )
-    console.log('celula ',celula)
    if(list_produtos.length == 0 ){
       res.status(200).send('Nenhum Produto Associado a essa Celula')
    }else
@@ -33,8 +30,8 @@ async function create(req,res) {
 
 async function update(req,res) {
    const id_produto = req.params.id_produto
-   const {produto} = req.body;
-   const prod = await service_produto.update(id_produto ,produto)
+   const {produto, fk_id_celula} = req.body;
+   const prod = await service_produto.update(produto ,fk_id_celula,id_produto)
    res.status(200).send(`Produto: '${prod}', atualizada com sucesso`)
 }
 

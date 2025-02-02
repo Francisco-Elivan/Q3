@@ -1,9 +1,9 @@
 
 import { query } from "../_database/sqlite.js"
 
-// const list = await repository_response.set(response.questionId, response.question, response.ok ,response.na, response.section, response.observation, response.auditor, response.turno, response.celula, response.produto, response.data,img)
 
-async function set(auditor, celula, produto,turno, ok, nok, na, observation, img,date,section,indice_question,question) {
+
+async function set(auditor, celula, produto, turno, ok, nok, na, observation, img, date, section, indice_question, question) {
 
     let sql = `INSERT INTO response_question (
     auditor,
@@ -24,16 +24,23 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
 
 returning id_response;
 `
-//console.log('/////////////////REPOSITORY////////////////////')
-//console.log(auditor, celula, produto,turno, ok, nok, na, observation, img,date,section,indice_question,question)
-const id_response = await query(sql, [auditor, celula, produto,turno, ok, nok, na, observation, img,date,section,indice_question,question])
-return id_response[0]
+    const id_response = await query(sql, [auditor, celula, produto, turno, ok, nok, na, observation, img, date, section, indice_question, question])
+    return id_response[0]
 
 
 
 }
-//{ questionId, question, ok, nok, na, section, observation, auditor, turno, celula, produto, data }
-export default { set }
+
+async function listResponse() {
+
+    let sql = `SELECT * FROM response_question `
+
+    const list = await query(sql, [])
+
+    return list
+}
+
+export default { set, listResponse }
 
 
 

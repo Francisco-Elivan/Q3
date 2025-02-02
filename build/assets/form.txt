@@ -1,0 +1,256 @@
+import React, { useState } from "react";
+import './index.css';
+import auditoriaData from "./DataQuestion";
+import axios from "axios";
+
+
+
+function FormQuestion() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [checkboxState, setCheckboxState] = useState({});
+  
+
+  // Função para lidar com mudanças no checkbox "OK"
+  const handleOkChange = (id, section, question) => (event) => {
+
+    const isChecked = event.target.checked;
+    if (isChecked || checkboxState[id]?.nok || checkboxState[id]?.na) {
+      // Atualize apenas se algum valor for `true`
+      setCheckboxState((prevState) => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          question: question,
+          section: section.section, // Armazenando a seção
+          ok: isChecked,
+          nok: isChecked ? false : prevState[id]?.nok,
+          na: isChecked ? false : prevState[id]?.na,
+        },
+      }));
+    } else {
+      // Se todos forem `false`, remova a pergunta do estado
+      const newState = { ...checkboxState };
+      delete newState[id];
+      setCheckboxState(newState);
+    }
+  };
+
+  // Função para lidar com mudanças no checkbox "NOK"
+  const handleNokChange = (id, section, question) => (event) => {
+    const isChecked = event.target.checked;
+    if (isChecked || checkboxState[id]?.ok || checkboxState[id]?.na) {
+      // Atualize apenas se algum valor for `true`
+      setCheckboxState((prevState) => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          question: question,
+          section: section.section, // Armazenando a seção
+          nok: isChecked,
+          ok: isChecked ? false : prevState[id]?.ok,
+          na: isChecked ? false : prevState[id]?.na,
+        },
+      }));
+    } else {
+      // Se todos forem `false`, remova a pergunta do estado
+      const newState = { ...checkboxState };
+      delete newState[id];
+      setCheckboxState(newState);
+    }
+  };
+
+  // Função para lidar com mudanças no checkbox "NA"
+  const handleNaChange = (id, section, question) => (event) => {
+    const isChecked = event.target.checked;
+    if (isChecked || checkboxState[id]?.ok || checkboxState[id]?.nok) {
+      // Atualize apenas se algum valor for `true`
+      setCheckboxState((prevState) => ({
+        ...prevState,
+        [id]: {
+          ...prevState[id],
+          question: question,
+          section: section.section, // Armazenando a seção
+          na: isChecked,
+          ok: isChecked ? false : prevState[id]?.ok,
+          nok: isChecked ? false : prevState[id]?.nok,
+        },
+      }));
+    } else {
+      // Se todos forem `false`, remova a pergunta do estado
+      const newState = { ...checkboxState };
+      delete newState[id];
+      setCheckboxState(newState);
+    }
+  };
+
+  // Função para lidar com mudanças no campo de observação
+  const handleObservationChange = (id) => (event) => {
+    setCheckboxState((prevState) => ({
+      ...prevState,
+      [id]: {
+        ...prevState[id],
+        // Armazenando a seção
+        observation: event.target.value,
+      },
+    }));
+  };
+
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+const handleInputFile = (event) => {
+  const files = Array.from(event.target.files); // Captura todos os arquivos como array
+  setSelectedFiles(files); // Armazena todos os arquivos no estado
+};
+
+const handleEnviar = async () => {
+  const formData = new FormData();
+  selectedFiles.forEach(file => {
+    formData.append('files', file); // Adiciona todos os arquivos ao FormData
+  });
+
+  try {
+    const response = await axios.post('http://192.168.0.114:5000/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    alert('Upload bem-sucedido!');
+  } catch (error) {
+    console.error('Erro ao fazer upload:', error);
+    alert('Erro ao fazer upload');
+  }
+
+
+    // Filtra apenas as perguntas que possuem pelo menos uma resposta `true`
+    const filteredData = Object.keys(checkboxState).map((key) => ({
+
+      data: {
+        questionId: key,
+        question: checkboxState[key].question,
+        ok: checkboxState[key].ok,
+        nok: checkboxState[key].nok,
+        na: checkboxState[key].na,
+        section: checkboxState[key].section,
+        observation: checkboxState[key].observation === undefined ? '' : checkboxState[key].observation
+      }
+    }));
+    console.log(filteredData); // Mostra apenas os dados relevantes no console
+    console.log(checkboxState.length)
+  };
+
+
+  return (
+    <>
+    
+    <div className="h1title">
+        <h1>
+          Auditoria Q3
+        </h1>
+      </div>
+      {/** iteraçao sobre os titulos das questoes */}
+      {auditoriaData.map((sectionTitle, sectionTitleIndex) =>
+        <div className="container" key={sectionTitleIndex} >
+          <div className='title' > {/** coloca o index do array da titulo para o react nao se perder */}
+            <label className="title_label"> {sectionTitle.section} </label>
+          </div>
+
+          <div className='container_question'>
+            {/* Itera sobre as perguntas da seção */}
+            {sectionTitle.questions.map((question) => (
+              < div key={question.id}  >
+
+                <div className='question' >
+                  <label>
+                    <b>{question.id}</b> {question.question}
+                  </label>
+                </div>
+
+
+                <div className='title_Result'><label>Resultado</label></div>
+
+                <div className='container_checkbox'>
+                  <label>
+                    <input className='checkbox' type="checkbox" id='check_NOk'
+                      checked={checkboxState[question.id]?.nok || false}
+                      onChange={handleNokChange(question.id, sectionTitle, question.question)}
+                    /> NOK
+                  </label>
+
+                  {checkboxState[question.id]?.nok !== true ? (
+
+                    <>
+                      <label>
+                        <input className='checkbox' type='checkbox' id='check_Ok'
+                          checked={checkboxState[question.id]?.ok || false}
+                          onChange={handleOkChange(question.id, sectionTitle, question.question)}
+                          value={'ok'}
+                        />
+                        Ok
+                      </label>
+                      < label>
+                        <input className='checkbox' type='checkbox' id='check_NA'
+                          checked={checkboxState[question.id]?.na || false}
+                          onChange={handleNaChange(question.id, sectionTitle, question.question)}
+
+                        />
+                        N/A
+                      </label>
+                    </>
+                  ) :
+                    <>
+
+                      
+                        {/* Escondendo o input de arquivo padrão */}
+                        <input
+                          id="file"
+                          type="file"
+                          style={{ display: 'none' }}
+                          onChange={handleInputFile}
+                          multiple
+                          name="files[]" /*Isso deve corresponder ao nome usado no backend */
+                        />
+                        <label
+                          htmlFor="file"
+                          style={{
+                            display: 'inline-block',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <img
+                            src='./assets/image.png' // Substitua pelo caminho da sua imagem PNG
+                            alt="Upload"
+                            style={{ width: '40px', height: '40px' }} // Ajuste o tamanho conforme necessário
+                          />
+                        </label>
+
+                        {/*<input id='file' type="file" onChange={handleInputFile} />*/}
+                      </>
+
+                  } {/* fim */}
+                    </div>
+
+                  <div className='text_Area'>
+                    <div>
+                      <label htmlFor="text_Area">Observaçao:</label>
+                      <textarea id="text_Area" name="text_Area" rows="4" placeholder="Digite observações aqui..."
+                        value={checkboxState[question.id]?.observcao}
+                        onChange={handleObservationChange(question.id)}
+                      />
+                    </div>
+                  </div>
+
+                </div>
+            ))}
+              </div>
+        </div>
+      )}
+          <div className="C_button">
+
+            <button id="button" onClick={handleEnviar}>enviar</button>
+          </div>
+
+
+        </>
+      );
+}

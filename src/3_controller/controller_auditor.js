@@ -9,7 +9,7 @@ async function list(req, res) {
 
 async function create(req, res) {
    const usuario = req.body;
-   console.log(usuario)
+
      
    // Verifica se as propriedades name e pass estão no JSON recebido
    if (!usuario.name || !usuario.pass || !usuario.email) {
@@ -21,7 +21,6 @@ async function create(req, res) {
 
 async function login(req, res) {
    const { name, pass } = req.body;
-   console.log( name,+'  '+ pass)
    const user = await service_auditor.login(name, pass)
    if (user.length == 0) {
       res.status(401).json({error:"E-mail ou senha invalida"})

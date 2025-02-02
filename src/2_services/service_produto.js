@@ -17,8 +17,8 @@ async function create(produto,fk_id_celula) {
    const produto_id = await repository_produto.create(produto,fk_id_celula)
    return produto_id
 }
-async function update(id_produto,produto) {
-   const prod = await repository_produto.update(id_produto,produto)
+async function update(produto, fk_id_celula, id_produto) {
+   const prod = await repository_produto.update(produto, fk_id_celula, id_produto)
    return prod
 }
 
