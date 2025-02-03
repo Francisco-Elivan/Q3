@@ -8,7 +8,7 @@ import router from "./router/routes.js";
 
 const app = express()
 
-app.use(express.static("./build"))
+app.use(express.static("src/build"))
 const corsOptions = {
   origin: '*', // Permitir todas as origens (ou substitua pelo domínio específico)
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitido
