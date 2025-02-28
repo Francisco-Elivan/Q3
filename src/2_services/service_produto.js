@@ -8,8 +8,6 @@ async function list(produto) {
 
 async function list_inner_join(celula) {
    const list_produtos = await repository_produto.list_inner_join(celula)
-   console.log('//////////////service//////////////////////////')
-   console.log(list_produtos)
    return list_produtos
 }
 

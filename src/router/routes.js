@@ -7,7 +7,9 @@ import controller_produto from '../3_controller/controller_produto.js';
 import header_response from "../scritp_useful/header_response.js";
 import jwt from '../token/token.js'
 
+
 const router = Router()
+  
 //////////////////rotas login/////////////
 router.post('/auditoria/login',header_response.headerRes,controller_auditor.login)
 
