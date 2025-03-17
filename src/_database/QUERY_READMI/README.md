@@ -50,7 +50,7 @@ INSERT INTO question (id_ques_category, indice, question) VALUES (14, '14.4', 'M
 ### CREATE TABLE `question_category`
 CREATE TABLE IF NOT EXISTS question_category (
     id_category INTEGER PRIMARY KEY AUTOINCREMENT,
-    category TEXT NOT NULL,
+    category TEXT NOT NULL
 );
 
 `--------------------------------------------------------------------------------`
@@ -58,8 +58,9 @@ CREATE TABLE IF NOT EXISTS question_category (
 CREATE TABLE auditor (
     id_auditor  INTEGER PRIMARY KEY AUTOINCREMENT,
     name        TEXT    NOT NULL,
+    email       TEXT    NOT NULL,
     pass        TEXT    NOT NULL,
-    date_create TEXT    DEFAULT CURRENT_TIMESTAMP
+    date_create TEXT    NOT NULL
 );
 `--------------------------------------------------------------------------------`
 ### CREATE TABLE `response_question`

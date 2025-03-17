@@ -10,7 +10,6 @@ async function list(req,res) {
 
 async function list_inner_join(req,res) {
    const celula = req.query.celula
-   console.log(celula)
    const list_produtos = await service_produto.list_inner_join(celula)
    if(list_produtos.length == 0 ){
       res.status(200).send('Nenhum Produto Associado a essa Celula')

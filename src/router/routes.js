@@ -13,7 +13,7 @@ const router = Router()
 //////////////////rotas login/////////////
 router.post('/auditoria/login',header_response.headerRes,controller_auditor.login)
 
-
+  
 //////////////////rotas auditor/////////////
 router.post('/auditoria/resgister/auditor',header_response.headerRes,controller_auditor.create)
 router.get('/auditoria/auditor',header_response.headerRes,jwt.ValidateToken,controller_auditor.list)

@@ -23,7 +23,7 @@ async function login(req, res) {
    const { name, pass } = req.body;
    const user = await service_auditor.login(name, pass)
    if (user.length == 0) {
-      res.status(401).json({error:"E-mail ou senha invalida"})
+      res.status(401).json({error:"Usuario ou senha invalida"})
    } else {
       res.status(200).json(user)
    }

@@ -14,11 +14,11 @@ async function list(name) {
 }
 
 
-async function create(name, email, password) {
+async function create(name, email, password,date_create) {
 
-  let sql = `INSERT INTO auditor (name,email,pass) VALUES(?,?,?) RETURNING id_auditor`
+  let sql = `INSERT INTO auditor (name,email,pass,date_create) VALUES(?,?,?,?) RETURNING id_auditor, name , email, date_create`
 
-  const user_id = await query(sql, [name, email, password])
+  const user_id = await query(sql, [name, email, password,date_create])
   return user_id[0]
 }
 

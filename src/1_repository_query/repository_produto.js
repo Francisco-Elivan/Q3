@@ -10,7 +10,7 @@ async function list(produto) {
     fill.push('%' + produto + '%')
     sql = sql + ' where produto like ? '
   }
-  sql = sql + 'order by id_produto'
+  sql = sql + 'order by id_produto desc'
   const list_produto = await query(sql, fill)
   return list_produto
 }

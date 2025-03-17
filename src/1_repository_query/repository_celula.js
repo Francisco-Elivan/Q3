@@ -8,7 +8,7 @@ async function list(celula) {
     fill.push('%' + celula + '%')
     sql = sql + ' where celula like ? '
   }
-  sql = sql + 'order by id_celula'
+  sql = sql + 'order by id_celula desc'
   const list_celulas = await query(sql, fill)
   return list_celulas 
 }
